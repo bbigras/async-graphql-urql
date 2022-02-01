@@ -1,11 +1,15 @@
 <script>
   import { operationStore, query, createClient, setClient, defaultExchanges, dedupExchange, fetchExchange, cacheExchange } from '@urql/svelte';
+  import { persistedFetchExchange } from '@urql/exchange-persisted-fetch';
 
   const client = createClient({
 	url: "http://localhost:8000/graphql",
 	exchanges: [
       dedupExchange,
       cacheExchange,
+      persistedFetchExchange({
+        preferGetForPersistedQueries: true,
+      }),
       fetchExchange
     ]
   });
