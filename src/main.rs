@@ -5,12 +5,17 @@ use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql::{EmptyMutation, EmptySubscription, Object, Schema};
 use async_std::task;
 use tide::{http::mime, Body, Response, StatusCode};
+use tide_tracing::TraceMiddleware;
 
 use std::env;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
 fn main() -> Result<()> {
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::DEBUG)
+        .init();
+
     task::block_on(run())
 }
 
@@ -29,6 +34,7 @@ async fn run() -> Result<()> {
     println!("Playground: http://{}", listen_addr);
 
     let mut app = tide::new();
+    app.with(TraceMiddleware::new());
 
     let schema = Schema::build(Query, EmptyMutation, EmptySubscription)
         // .data(data)
