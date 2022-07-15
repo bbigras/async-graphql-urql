@@ -12,7 +12,7 @@
     "@sveltejs/adapter-auto": "next",
     "@sveltejs/kit": "next",
     "prettier": "^2.6.0",
-    "svelte": "^3.44.0"
+    "svelte": "^3.49.0"
   },
   "type": "module",
   "dependencies": {
